@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Creative.Design25 — Graphic Design Portfolio &amp; Pricing</title>
+<meta name="description" content="Creative.Design25 — posters, flyers, social media creatives, logos, and monthly growth packages. Designing attention for brands & businesses.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;900&family=Playfair+Display:ital,wght@0,600;1,500;1,600&family=Manrope:wght@500;600;700;800&family=Inter:wght@400;500;600&family=Galada&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<style>
+  :root{
+    --ink: #08080b;
+    --ink-soft: #121218;
+    --surface: #17171f;
+    --surface-2: #1d1d26;
+    --border: rgba(217,174,83,.18);
+    --border-soft: rgba(244,237,225,.1);
+    --text: #f4ede1;
+    --muted: rgba(244,237,225,.62);
+    --gold: #d9ae53;
+    --gold-bright: #f3cd80;
+    --gold-deep: #9c7a2e;
+    --pink: #ef4d98;
+    --purple: #6f2f86;
+    --purple-deep: #4a1f5a;
+    --blue: #1c4a7c;
+    --blue-deep: #0f2c4d;
+    --shadow: rgba(0,0,0,.5);
+  }
+
+  *{ margin:0; padding:0; box-sizing:border-box; }
+  html{ scroll-behavior:smooth; }
+  body{
+    background: var(--ink); color: var(--text);
+    font-family:'Inter', sans-serif; overflow-x:hidden;
+  }
+  body.intro-active{ overflow:hidden; height:100vh; }
+
+  .intro-splash{
+    position:fixed; inset:0; z-index:500; background:#000;
+    display:flex; align-items:center; justify-content:center;
+    opacity:1; visibility:visible; transition: opacity .7s ease;
+  }
+  .intro-splash.hide{ opacity:0; pointer-events:none; }
+  .intro-video{ width:100%; height:100%; object-fit:contain; background:#000; }
+  .intro-skip{
+    position:absolute; right: clamp(1rem,4vw,2.2rem); bottom: clamp(1.2rem,5vw,2.2rem);
+    display:inline-flex; align-items:center; gap:.5rem;
+    font-family:'Manrope',sans-serif; font-weight:700; font-size:.82rem; color:var(--text);
+    background: rgba(255,255,255,.08); border:1px solid rgba(244,237,225,.3);
+    padding:.65rem 1.1rem; border-radius:100px; cursor:pointer;
+    backdrop-filter: blur(6px); transition: background .3s ease, transform .3s ease;
+  }
+  .intro-skip:hover{ background: rgba(255,255,255,.16); transform: translateY(-2px); }
+  a{ color:inherit; }
+  img{ max-width:100%; display:block; }
+  ::selection{ background: var(--gold); color:#1a1206; }
+
+  .wrap{ max-width:1240px; margin:0 auto; padding-inline: clamp(1.25rem,4vw,3rem); }
+  section{ padding: clamp(4rem,8vw,6.5rem) 0; position:relative; }
+
+  .eyebrow{ font-family:'Manrope',sans-serif; font-weight:700; font-size:.78rem; letter-spacing:.06em; color:var(--gold); margin-bottom:.6rem; }
+  .section-head{ max-width:640px; margin-bottom: 2.6rem; }
+  .section-head h2{ font-family:'Outfit',sans-serif; font-weight:800; font-size: clamp(2rem,4.2vw,2.9rem); line-height:1.1; }
+  .section-head p{ color:var(--muted); margin-top:.8rem; font-size:1.05rem; line-height:1.6; }
+
+  .rule{ height:1px; background:linear-gradient(90deg, transparent, var(--border) 20%, var(--border) 80%, transparent); margin: 0 auto; }
+
+  .reveal{ opacity:0; transform: translateY(30px) rotateX(6deg); transform-origin:center bottom; }
+
+  /* ---------------- Header ---------------- */
+  header.site-header{
+    position:fixed; inset:0 0 auto 0; z-index:300;
+    display:flex; align-items:center; justify-content:space-between;
+    padding: 1.1rem clamp(1.25rem,4vw,3rem);
+    background: color-mix(in srgb, var(--ink) 68%, transparent);
+    backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+    border-bottom: 1px solid transparent; transition: border-color .4s ease;
+  }
+  header.site-header.scrolled{ border-bottom-color: var(--border); }
+
+  .logo{ display:flex; flex-direction:column; line-height:1; text-decoration:none; }
+  .logo .word{ font-family:'Galada', cursive; font-size:1.7rem; color: var(--gold-bright); }
+  .logo .word b{ font-family:'Outfit',sans-serif; font-weight:900; color: var(--text); font-size:1.05rem; letter-spacing:.02em; }
+  .logo .tag{ font-family:'Manrope',sans-serif; font-size:.56rem; letter-spacing:.24em; color:var(--muted); margin-top:.15rem; }
+
+  nav.main-nav{ display:flex; align-items:center; gap:2rem; }
+  .nav-link{ font-family:'Manrope',sans-serif; font-weight:600; font-size:.88rem; text-decoration:none; color:var(--muted); position:relative; padding:.2rem 0; transition: color .3s ease; }
+  .nav-link::after{ content:''; position:absolute; left:0; bottom:-4px; width:0; height:1px; background:var(--gold); transition:width .35s ease; }
+  .nav-link:hover{ color:var(--text); }
+  .nav-link:hover::after{ width:100%; }
+
+  .cta-pill{
+    font-family:'Manrope',sans-serif; font-weight:700; font-size:.83rem;
+    background: linear-gradient(135deg, var(--gold-bright), var(--gold-deep));
+    color:#1a1206; border:none; padding:.72rem 1.35rem; border-radius:100px;
+    text-decoration:none; cursor:pointer; display:inline-flex; align-items:center; gap:.5rem;
+    transition: transform .35s cubic-bezier(.3,.7,.4,1), box-shadow .35s ease;
+  }
+  .cta-pill:hover{ transform: translateY(-3px); box-shadow: 0 14px 26px var(--shadow); }
+  .cta-ghost{
+    font-family:'Manrope',sans-serif; font-weight:700; font-size:.83rem;
+    border:1px solid var(--border); color:var(--text); background:transparent;
+    padding:.7rem 1.3rem; border-radius:100px; text-decoration:none; cursor:pointer;
+    transition: border-color .3s ease, transform .3s ease;
+  }
+  .cta-ghost:hover{ border-color:var(--gold); transform:translateY(-3px); }
+
+  .header-actions{ display:flex; align-items:center; gap:1rem; }
+  .hamburger{ display:none; width:44px; height:44px; border-radius:12px; border:1px solid var(--border); background:var(--surface); cursor:pointer; position:relative; }
+  .hamburger span, .hamburger span::before, .hamburger span::after{ content:''; position:absolute; left:11px; right:11px; height:2px; background:var(--text); transition:.3s ease; }
+  .hamburger span{ top:21px; } .hamburger span::before{ top:-7px; } .hamburger span::after{ top:7px; }
+  .hamburger.open span{ background:transparent; }
+  .hamburger.open span::before{ top:0; transform:rotate(45deg); }
+  .hamburger.open span::after{ top:0; transform:rotate(-45deg); }
+
+  .mobile-nav{
+    position:fixed; inset:0; z-index:290; background:var(--ink);
+    display:flex; flex-direction:column; align-items:flex-start; justify-content:center; gap:1.5rem;
+    padding: 2rem clamp(1.5rem,7vw,3rem);
+    transform: translateY(-100%); transition: transform .55s cubic-bezier(.65,0,.2,1);
+  }
+  .mobile-nav.open{ transform:translateY(0); }
+  .mobile-nav a{ font-family:'Outfit',sans-serif; font-weight:700; font-size:2.1rem; text-decoration:none; color:var(--text); }
+
+  /* ---------------- Hero ---------------- */
+  .hero{ height:100vh; min-height:640px; display:flex; align-items:flex-end; padding-bottom: clamp(2.5rem,6vw,4.5rem); overflow:hidden; }
+  .hero-bg{
+    position:absolute; inset:0; z-index:-2; overflow:hidden;
+  }
+  .hero-bg img, .hero-bg video{ width:100%; height:120%; object-fit:cover; object-position: center 20%; will-change:transform; }
+  .hero-bg::after{
+    content:''; position:absolute; inset:0;
+    background: linear-gradient(0deg, var(--ink) 6%, rgba(8,8,11,.72) 45%, rgba(8,8,11,.35) 75%),
+                linear-gradient(90deg, rgba(8,8,11,.55), transparent 60%);
+  }
+  .hero-inner{ max-width:760px; }
+  .hero-crumb{ display:flex; align-items:center; gap:.6rem; font-family:'Manrope',sans-serif; font-weight:700; font-size:.8rem; color: var(--gold-bright); margin-bottom:1rem; }
+  .hero h1{ font-family:'Outfit',sans-serif; font-weight:900; font-size: clamp(2.6rem,7vw,4.8rem); line-height:1.02; }
+  .hero .script{ font-family:'Playfair Display', serif; font-style:italic; font-weight:500; font-size: clamp(1.2rem,2.6vw,1.6rem); color:var(--gold-bright); margin-top:1.1rem; }
+  .hero p.lede{ color: rgba(244,237,225,.82); margin-top:1rem; font-size:1.05rem; max-width:52ch; line-height:1.6; }
+  .hero-actions{ display:flex; gap:1rem; margin-top:2rem; flex-wrap:wrap; }
+  .hero-meta{ display:flex; gap:1.6rem; margin-top:2.6rem; flex-wrap:wrap; }
+  .hero-meta div{ font-family:'Manrope',sans-serif; }
+  .hero-meta b{ display:block; font-size:1.3rem; color:var(--gold-bright); font-weight:800; }
+  .hero-meta span{ font-size:.72rem; color:var(--muted); }
+
+  /* ---------------- 3D tilt card mechanics ---------------- */
+  .tilt{ perspective:1100px; }
+  .tilt-inner{ transform-style:preserve-3d; transition: transform .5s cubic-bezier(.2,.8,.2,1); will-change:transform; }
+
+  /* ---------------- About ---------------- */
+  .about-grid{ display:grid; grid-template-columns: .85fr 1.15fr; gap: clamp(2rem,5vw,4rem); align-items:center; }
+  .about-photo{ position:relative; border-radius:24px; overflow:hidden; border:1px solid var(--border); background:var(--surface); }
+  .about-photo img{ width:100%; }
+  .about-copy .eyebrow{ margin-bottom:.4rem; }
+  .about-copy h2{ font-family:'Outfit',sans-serif; font-weight:800; font-size:clamp(2rem,4vw,2.7rem); }
+  .about-copy p{ color:var(--muted); margin-top:1.1rem; line-height:1.7; font-size:1.02rem; }
+  .about-copy p + p{ margin-top: .9rem; }
+  .badge-row{ display:flex; gap:.7rem; flex-wrap:wrap; margin-top:1.6rem; }
+  .badge{ font-family:'Manrope',sans-serif; font-weight:700; font-size:.78rem; border:1px solid var(--border); padding:.5rem 1rem; border-radius:100px; color:var(--gold-bright); }
+  .stat-row{ display:flex; gap:2.4rem; margin-top:2rem; flex-wrap:wrap; }
+  .stat-row b{ font-family:'Outfit',sans-serif; font-weight:900; font-size:1.9rem; color:var(--text); display:block; }
+  .stat-row span{ font-family:'Manrope',sans-serif; font-size:.78rem; color:var(--muted); }
+
+  /* ---------------- Tools/Skills strip ---------------- */
+  .strip{ border-top:1px solid var(--border-soft); border-bottom:1px solid var(--border-soft); padding: 2.6rem 0; }
+  .strip-grid{ display:grid; grid-template-columns: repeat(4, 1fr); gap:1.5rem; }
+  .tool-card{ display:flex; align-items:center; gap:.8rem; font-family:'Manrope',sans-serif; font-weight:700; }
+  .tool-dot{ width:38px; height:38px; border-radius:11px; background:var(--surface); border:1px solid var(--border); display:flex; align-items:center; justify-content:center; color:var(--gold-bright); flex:none; }
+  .skills-line{ margin-top:2rem; display:flex; gap:.6rem; flex-wrap:wrap; }
+  .skill-tag{ font-family:'Manrope',sans-serif; font-size:.78rem; color:var(--muted); border:1px solid var(--border-soft); padding:.4rem .9rem; border-radius:100px; }
+
+  /* ---------------- Work gallery ---------------- */
+  .filter-row{ display:flex; gap:.6rem; flex-wrap:wrap; margin-bottom:2rem; }
+  .filter-chip{
+    font-family:'Manrope',sans-serif; font-weight:700; font-size:.8rem; padding:.55rem 1.1rem;
+    border-radius:100px; border:1px solid var(--border); background:transparent; color:var(--muted); cursor:pointer;
+    transition: all .3s ease;
+  }
+  .filter-chip.active, .filter-chip:hover{ background:var(--gold); border-color:var(--gold); color:#1a1206; }
+
+  .work-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:1.3rem; }
+  .work-card{ grid-column: span 1; border-radius:18px; overflow:hidden; position:relative; background:var(--surface); border:1px solid var(--border-soft); }
+  .work-card .tilt-inner{ border-radius:18px; overflow:hidden; }
+  .work-card.tall{ grid-row: span 2; }
+  .work-card img{ width:100%; height:100%; object-fit:cover; display:block; }
+  .work-card .cap{
+    position:absolute; left:0; right:0; bottom:0; padding:1.1rem 1.15rem;
+    background: linear-gradient(0deg, rgba(0,0,0,.82), transparent);
+    transform: translateY(100%); transition: transform .45s cubic-bezier(.2,.8,.2,1);
+  }
+  .work-card:hover .cap{ transform: translateY(0); }
+  .work-card .cap b{ font-family:'Manrope',sans-serif; font-size:.92rem; display:block; }
+  .work-card .cap span{ font-size:.72rem; color:var(--gold-bright); }
+  .work-card[data-cat]{ display:none; }
+  .work-card.show{ display:block; }
+  .work-video{ width:100%; height:100%; object-fit:cover; display:block; background:#000; }
+  .work-card .play-badge{
+    position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
+    width:52px; height:52px; border-radius:50%; background:rgba(8,8,11,.55);
+    border:1px solid rgba(244,237,225,.5); display:flex; align-items:center; justify-content:center;
+    color:#fff; pointer-events:none; transition: opacity .3s ease;
+  }
+  .work-card:hover .play-badge{ opacity:0; }
+
+  @media (min-width: 601px){
+    .work-card{ height:230px; }
+    .work-card.tall{ height:auto; }
+  }
+
+  /* ---------------- Pricing / services ---------------- */
+  .pricing-section{ background: radial-gradient(circle at 20% 0%, rgba(217,174,83,.08), transparent 60%); }
+
+  .service-table{ border:1px solid var(--border); border-radius:20px; overflow:hidden; background:var(--surface); }
+  .service-row{ display:flex; align-items:center; justify-content:space-between; gap:1rem; padding:1.15rem 1.5rem; border-top:1px solid var(--border-soft); }
+  .service-row:first-child{ border-top:none; }
+  .service-row .s-name{ display:flex; align-items:center; gap:.9rem; font-family:'Manrope',sans-serif; font-weight:600; }
+  .s-icon{ width:36px; height:36px; border-radius:10px; background:var(--ink-soft); border:1px solid var(--border); display:flex; align-items:center; justify-content:center; color:var(--gold-bright); flex:none; }
+  .service-row .s-price{ font-family:'Outfit',sans-serif; font-weight:700; color:var(--gold-bright); white-space:nowrap; }
+
+  .starter-card{
+    border:1px solid var(--gold); border-radius:20px; padding:1.8rem;
+    background: linear-gradient(160deg, var(--surface), var(--surface-2));
+    height:100%; display:flex; flex-direction:column;
+  }
+  .starter-card h3{ font-family:'Outfit',sans-serif; font-size:1.3rem; }
+  .starter-price{ font-family:'Outfit',sans-serif; font-weight:900; font-size:2.4rem; color:var(--gold-bright); margin:.6rem 0 1.2rem; }
+  .check-list{ list-style:none; display:flex; flex-direction:column; gap:.65rem; margin-bottom:1.4rem; }
+  .check-list li{ display:flex; align-items:flex-start; gap:.6rem; font-size:.92rem; color:var(--text); }
+  .check-list li svg{ flex:none; margin-top:.15rem; color:var(--pink); }
+  .starter-note{ margin-top:auto; background:var(--ink-soft); border:1px dashed var(--border); border-radius:14px; padding:1rem 1.1rem; font-size:.85rem; color:var(--muted); line-height:1.5; }
+
+  .pricing-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:1.6rem; margin-top:1rem; }
+  .plan-card{
+    border-radius:22px; padding:2px; position:relative;
+    background: linear-gradient(160deg, var(--border), transparent 40%);
+  }
+  .plan-card .tilt-inner{
+    border-radius:20px; padding: 1.9rem 1.7rem 1.6rem; height:100%;
+    display:flex; flex-direction:column;
+  }
+  .plan-basic .tilt-inner{ background: linear-gradient(165deg, var(--purple), var(--purple-deep) 120%); }
+  .plan-growth .tilt-inner{ background: linear-gradient(165deg, var(--blue), var(--blue-deep) 120%); border:2px solid var(--gold); }
+  .plan-premium .tilt-inner{ background: linear-gradient(165deg, #7a5a1e, #2a1e0c 120%); }
+
+  .plan-ribbon{
+    position:absolute; top:14px; right:-6px; background:var(--gold); color:#1a1206;
+    font-family:'Manrope',sans-serif; font-weight:800; font-size:.68rem; letter-spacing:.04em;
+    padding:.4rem .8rem; border-radius:6px 6px 6px 0; z-index:2;
+    box-shadow: 0 6px 14px rgba(0,0,0,.4);
+  }
+  .plan-ribbon::after{
+    content:''; position:absolute; inset:0; border-radius:inherit;
+    background: linear-gradient(110deg, transparent 30%, rgba(255,255,255,.6) 48%, transparent 66%);
+    background-size:220% 100%; animation: shine 3.4s ease-in-out infinite;
+  }
+  @keyframes shine{ 0%{ background-position:180% 0; } 60%,100%{ background-position:-40% 0; } }
+
+  .plan-name{ font-family:'Manrope',sans-serif; font-weight:800; font-size:1.15rem; }
+  .plan-sub{ font-size:.8rem; color:rgba(244,237,225,.7); margin-top:.15rem; }
+  .plan-price{ font-family:'Outfit',sans-serif; font-weight:900; font-size:2.5rem; margin: 1rem 0 .2rem; }
+  .plan-price span{ font-size:.9rem; font-weight:600; color:rgba(244,237,225,.65); }
+  .plan-card .check-list{ margin: 1.2rem 0 1.4rem; }
+  .plan-card .check-list li{ font-size:.86rem; }
+  .plan-tagline{ margin-top:auto; font-family:'Playfair Display', serif; font-style:italic; font-size:.92rem; color: var(--gold-bright); padding-top:1rem; border-top:1px solid rgba(244,237,225,.18); }
+
+  /* ---------------- Process ---------------- */
+  .process-row{ display:grid; grid-template-columns:repeat(5,1fr); gap:0; position:relative; margin-top:1rem; }
+  .process-step{ text-align:center; padding: 0 .6rem; position:relative; }
+  .process-step .p-icon{
+    width:64px; height:64px; border-radius:50%; background:var(--surface); border:1px solid var(--border);
+    display:flex; align-items:center; justify-content:center; margin:0 auto 1rem; color:var(--gold-bright);
+    position:relative; z-index:2;
+  }
+  .process-step b{ font-family:'Manrope',sans-serif; font-size:.88rem; display:block; }
+  .process-line{
+    position:absolute; top:32px; left:calc(10% + 32px); right:calc(10% + 32px); height:1px; background: var(--border);
+    z-index:1; overflow:hidden;
+  }
+  .process-line i{ display:block; height:100%; width:0%; background: var(--gold); transition: width 1.4s cubic-bezier(.4,0,.2,1); }
+  .process-line.filled i{ width:100%; }
+
+  /* ---------------- Why choose us ---------------- */
+  .why-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap: 1.4rem 2.4rem; margin-top:1rem; }
+  .why-row{ display:flex; align-items:center; gap:1rem; }
+  .why-row .w-icon{ width:42px; height:42px; border-radius:12px; background:var(--surface); border:1px solid var(--border); display:flex; align-items:center; justify-content:center; color:var(--gold-bright); flex:none; }
+  .why-row span{ font-family:'Manrope',sans-serif; font-weight:600; font-size:.94rem; }
+
+  /* ---------------- CTA banner ---------------- */
+  .cta-banner{
+    border-radius:26px; padding: clamp(2rem,5vw,3.2rem); text-align:center;
+    background: linear-gradient(135deg, var(--surface), var(--ink-soft));
+    border:1px solid var(--gold);
+  }
+  .cta-banner h3{ font-family:'Outfit',sans-serif; font-weight:900; font-size: clamp(1.6rem,3.6vw,2.3rem); }
+  .cta-banner .cta-row{ display:flex; gap:1.2rem; justify-content:center; flex-wrap:wrap; margin-top:1.8rem; }
+  .cta-box{ border:1px solid var(--border); border-radius:16px; padding:1.2rem 1.6rem; min-width:220px; }
+  .cta-box b{ display:block; font-family:'Outfit',sans-serif; color:var(--gold-bright); font-size:1.05rem; margin-bottom:.3rem; }
+  .cta-box span{ font-size:.82rem; color:var(--muted); }
+
+  /* ---------------- Footer ---------------- */
+  footer{ border-top:1px solid var(--border-soft); padding: 2.4rem clamp(1.25rem,4vw,3rem); display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:1rem; }
+  footer p{ color:var(--muted); font-size:.82rem; }
+  .foot-social{ display:flex; gap:1.2rem; }
+  .foot-social a{ color:var(--muted); font-family:'Manrope',sans-serif; font-size:.85rem; text-decoration:none; }
+  .foot-social a:hover{ color:var(--gold-bright); }
+
+  @media (prefers-reduced-motion: reduce){ html{ scroll-behavior:auto; } }
+
+  @media (max-width: 980px){
+    nav.main-nav, .header-actions .cta-pill{ display:none; }
+    .hamburger{ display:block; }
+    .about-grid{ grid-template-columns:1fr; }
+    .strip-grid{ grid-template-columns:repeat(2,1fr); }
+    .pricing-grid{ grid-template-columns:1fr; }
+    .process-row{ grid-template-columns:repeat(5,1fr); }
+    .why-grid{ grid-template-columns:1fr; }
+    .work-grid{ grid-template-columns:repeat(3,1fr); }
+  }
+  @media (max-width: 720px){
+    .process-row{ grid-template-columns:1fr; gap:1.6rem; }
+    .process-line{ display:none; }
+    .work-grid{ grid-template-columns:repeat(2,1fr); }
+    .work-card.tall{ grid-row: span 1; height:230px; }
+    .hero{ align-items:center; text-align:left; }
+    .hero-meta{ gap:1.1rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="intro-splash" id="introSplash">
+  <video id="introVideo" class="intro-video" autoplay muted playsinline preload="auto" poster="assets/intro-video-poster.jpg">
+    <source src="assets/intro-video.mp4" type="video/mp4">
+  </video>
+  <button class="intro-skip" id="introSkip">Skip Intro
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M6 5l10 7-10 7V5z" fill="currentColor"/><path d="M17 5v14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+  </button>
+</div>
+
+<header class="site-header" id="siteHeader">
+  <a href="#top" class="logo">
+    <span class="word"><b>Creative</b>.Design25</span>
+    <span class="tag">DESIGN · EDIT · BUILD · GROW</span>
+  </a>
+  <nav class="main-nav">
+    <a href="#work" class="nav-link">Work</a>
+    <a href="#about" class="nav-link">About</a>
+    <a href="#pricing" class="nav-link">Pricing</a>
+    <a href="reviews.html" class="nav-link">Reviews</a>
+    <a href="#contact" class="nav-link">Contact</a>
+  </nav>
+  <div class="header-actions">
+    <a href="#pricing" class="cta-pill">See pricing</a>
+    <button class="hamburger" id="hamburger" aria-label="Open menu"><span></span></button>
+  </div>
+</header>
+
+<div class="mobile-nav" id="mobileNav">
+  <a href="#work">Work</a>
+  <a href="#about">About</a>
+  <a href="#pricing">Pricing</a>
+  <a href="reviews.html">Reviews</a>
+  <a href="#contact">Contact</a>
+  <a href="#pricing" class="cta-pill">See pricing</a>
+</div>
+
+<main id="top">
+
+  <section class="hero" id="heroSection">
+    <div class="hero-bg" id="heroBg">
+      <video id="heroVideo" autoplay muted loop playsinline preload="auto" poster="assets/hero-bg.jpg">
+        <source src="assets/intro-video.mp4" type="video/mp4">
+      </video>
+    </div>
+    <div class="wrap hero-inner">
+      <div class="hero-crumb">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M4 18l3-9 5 5 5-8 3 12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Premium Designs · Powerful Results · Real Growth
+      </div>
+      <h1>Designing attention<br>for brands &amp; businesses.</h1>
+      <p class="script">Creative Ideas. Powerful Impact.</p>
+      <p class="lede">Let's grow your brand together — posters, flyers, social creatives, logos, and monthly growth packages, built by Varsha at Creative.Design25.</p>
+      <div class="hero-actions">
+        <a href="#work" class="cta-pill">View the work</a>
+        <a href="#pricing" class="cta-ghost">Get pricing</a>
+      </div>
+      <div class="hero-meta">
+        <div><b>200+</b><span>Designs delivered</span></div>
+        <div><b>Canva</b><span>Certified designer</span></div>
+        <div><b>@creative.design25</b><span>DM to start a project</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="about">
+    <div class="wrap about-grid">
+      <div class="about-photo reveal">
+        <img src="assets/avatar.jpg" alt="Varsha, graphic designer at Creative.Design25">
+      </div>
+      <div class="about-copy reveal">
+        <p class="eyebrow">About</p>
+        <h2>Hello! I'm Varsha.</h2>
+        <p>I'm a graphic designer focused on creating clean, modern, and professional designs for businesses and personal brands.</p>
+        <p>My goal is to help brands communicate clearly and look trustworthy through strong visual design — self-taught, and shaped by 200+ real client projects.</p>
+        <div class="badge-row">
+          <span class="badge">Posters</span>
+          <span class="badge">Flyers</span>
+          <span class="badge">Logos</span>
+          <span class="badge">Social Media Creatives</span>
+        </div>
+        <div class="stat-row">
+          <div><b>200+</b><span>Designs created</span></div>
+          <div><b>4</b><span>Core services</span></div>
+          <div><b>3</b><span>Growth packages</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="wrap"><div class="rule"></div></div>
+
+  <section class="strip">
+    <div class="wrap">
+      <p class="eyebrow" style="text-align:center;">Tools &amp; Certification</p>
+      <div class="strip-grid reveal">
+        <div class="tool-card"><span class="tool-dot">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.6"/><path d="M9 12a3 3 0 106 0 3 3 0 00-6 0z" stroke="currentColor" stroke-width="1.6"/></svg>
+        </span>Canva</div>
+        <div class="tool-card"><span class="tool-dot">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 3l8 15H4l8-15z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+        </span>Affinity Designer</div>
+        <div class="tool-card"><span class="tool-dot">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" stroke-width="1.6"/><path d="M8 9h8M8 13h5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+        </span>Fiverr</div>
+        <div class="tool-card"><span class="tool-dot">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="5" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.6"/></svg>
+        </span>Instagram</div>
+      </div>
+      <div class="skills-line reveal">
+        <span class="skill-tag">Graphic design for social media</span>
+        <span class="skill-tag">Poster, flyer &amp; banner design</span>
+        <span class="skill-tag">Visual storytelling</span>
+        <span class="skill-tag">Creative content designing</span>
+        <span class="skill-tag">Canva Graphic Design Certificate</span>
+      </div>
+    </div>
+  </section>
+
+  <section id="work">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <p class="eyebrow">Selected Work</p>
+        <h2>Posters, flyers &amp; creatives built for real brands.</h2>
+        <p>Clean layouts, bold visuals, and scroll-stopping design — a few pieces from recent client work.</p>
+      </div>
+
+      <div class="filter-row reveal">
+        <button class="filter-chip active" data-filter="all">All</button>
+        <button class="filter-chip" data-filter="poster">Posters</button>
+        <button class="filter-chip" data-filter="flyer">Flyers</button>
+        <button class="filter-chip" data-filter="social">Social Media</button>
+        <button class="filter-chip" data-filter="logo">Logo</button>
+        <button class="filter-chip" data-filter="video">Video Editing</button>
+        <button class="filter-chip" data-filter="webdesign">Website Design</button>
+      </div>
+
+      <div class="work-grid reveal" id="workGrid">
+        <div class="work-card show tall tilt" data-cat="poster"><div class="tilt-inner"><img src="assets/work-nightbeats.jpg" alt="Night Beats Concert 2025 poster"><div class="cap"><b>Night Beats Concert</b><span>Event Poster</span></div></div></div>
+        <div class="work-card show tilt" data-cat="poster"><div class="tilt-inner"><img src="assets/work-musicfest.jpg" alt="Music Festival poster"><div class="cap"><b>Midnight Beats</b><span>Music Festival Poster</span></div></div></div>
+        <div class="work-card show tall tilt" data-cat="flyer"><div class="tilt-inner"><img src="assets/work-bridalmakeup.jpg" alt="Bridal makeup discount flyer"><div class="cap"><b>Bridal Makeup</b><span>Discount Flyer</span></div></div></div>
+        <div class="work-card show tilt" data-cat="flyer"><div class="tilt-inner"><img src="assets/work-nailsalon.jpg" alt="Nail salon service flyer"><div class="cap"><b>Salon &amp; Beauty Care</b><span>Service Flyer</span></div></div></div>
+        <div class="work-card show tilt" data-cat="flyer"><div class="tilt-inner"><img src="assets/work-henna.jpg" alt="Henna art services flyer"><div class="cap"><b>En'arts</b><span>Henna Art Flyer</span></div></div></div>
+        <div class="work-card show tall tilt" data-cat="social"><div class="tilt-inner"><img src="assets/social-reddress.jpg" alt="New collection social media post"><div class="cap"><b>New Collection</b><span>Social Media Post</span></div></div></div>
+        <div class="work-card show tilt" data-cat="social"><div class="tilt-inner"><img src="assets/social-mindspire.jpg" alt="Mindset quote social media grid"><div class="cap"><b>@mindspire</b><span>Quote Post Series</span></div></div></div>
+        <div class="work-card show tilt" data-cat="flyer"><div class="tilt-inner"><img src="assets/work-cakecravings.jpg" alt="The Cake Cravings discount flyer"><div class="cap"><b>The Cake Cravings</b><span>Discount Flyer</span></div></div></div>
+        <div class="work-card show tilt" data-cat="poster"><div class="tilt-inner"><img src="assets/work-velvetluxe.jpg" alt="Velvet Luxe cosmetics poster"><div class="cap"><b>Velvet Luxe</b><span>Cosmetics Poster</span></div></div></div>
+        <div class="work-card show tall tilt" data-cat="flyer"><div class="tilt-inner"><img src="assets/work-gifthampers.jpg" alt="Gift hampers services flyer"><div class="cap"><b>Zeena Art Gifts</b><span>Services Flyer</span></div></div></div>
+        <div class="work-card show tilt" data-cat="flyer"><div class="tilt-inner"><img src="assets/work-jewellery.jpg" alt="Traditional jewellery discount poster"><div class="cap"><b>Traditional Jewellery</b><span>Bridal Sets Offer</span></div></div></div>
+        <div class="work-card show tilt" data-cat="flyer"><div class="tilt-inner"><img src="assets/work-tasteluxury.jpg" alt="Taste the Luxury restaurant flyer"><div class="cap"><b>Taste The Luxury</b><span>Restaurant Flyer</span></div></div></div>
+        <div class="work-card show tall tilt" data-cat="logo"><div class="tilt-inner"><img src="assets/logo-mockups.jpg" alt="Dexterous Merchandising brand mockups"><div class="cap"><b>Dexterous Merchandising</b><span>Logo &amp; Brand Mockups</span></div></div></div>
+        <div class="work-card show tilt" data-cat="logo"><div class="tilt-inner" style="background:#fff;"><img src="assets/logo-dexterous.jpg" alt="Dexterous Merchandising logo" style="height:100%;object-fit:contain;padding:1rem;"><div class="cap"><b>Dexterous Merchandising</b><span>Logo Design</span></div></div></div>
+        <div class="work-card show tilt" data-cat="flyer"><div class="tilt-inner"><img src="assets/work-krissy.jpg" alt="Krissy's Collection jewellery flyer"><div class="cap"><b>Krissy's Collection</b><span>Jewellery Flyer</span></div></div></div>
+        <div class="work-card show tall tilt" data-cat="video"><div class="tilt-inner"><video class="work-video" muted loop playsinline preload="metadata" poster="assets/video-cafe-poster.jpg"><source src="assets/video-cafe.mp4" type="video/mp4"></video><span class="play-badge"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span><div class="cap"><b>Cafe Promo Reel</b><span>UGC-Style Video Ad</span></div></div></div>
+        <div class="work-card show tall tilt" data-cat="video"><div class="tilt-inner"><video class="work-video" muted loop playsinline preload="metadata" poster="assets/video-unboxing-poster.jpg"><source src="assets/video-unboxing.mp4" type="video/mp4"></video><span class="play-badge"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span><div class="cap"><b>Product Unboxing Reel</b><span>Brand Promo Video</span></div></div></div>
+        <div class="work-card show tall tilt" data-cat="video"><div class="tilt-inner"><video class="work-video" muted loop playsinline preload="metadata" poster="assets/video-menu-ai-poster.jpg"><source src="assets/video-menu-ai.mp4" type="video/mp4"></video><span class="play-badge"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span><div class="cap"><b>AI Menu Animation</b><span>Restaurant Concept Ad</span></div></div></div>
+        <div class="work-card show tall tilt" data-cat="video"><div class="tilt-inner"><video class="work-video" muted loop playsinline preload="metadata" poster="assets/video-adconcepts-poster.jpg"><source src="assets/video-adconcepts.mp4" type="video/mp4"></video><span class="play-badge"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span><div class="cap"><b>Beverage Ad Concepts</b><span>AI Product Visuals</span></div></div></div>
+        <div class="work-card show tall tilt" data-cat="webdesign"><div class="tilt-inner"><video class="work-video" muted loop playsinline preload="metadata" poster="assets/video-restaurant-web-poster.jpg"><source src="assets/video-restaurant-web.mp4" type="video/mp4"></video><span class="play-badge"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span><div class="cap"><b>Restaurant Website Design</b><span>Food &amp; Dining Site Concept</span></div></div></div>
+        <div class="work-card show tall tilt" data-cat="webdesign"><div class="tilt-inner"><video class="work-video" muted loop playsinline preload="metadata" poster="assets/video-hotel-web-poster.jpg"><source src="assets/video-hotel-web.mp4" type="video/mp4"></video><span class="play-badge"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span><div class="cap"><b>Grand Palace Hotel</b><span>Hotel Website Design</span></div></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="pricing" class="pricing-section">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <p class="eyebrow">Services &amp; Pricing</p>
+        <h2>Let's build something impactful.</h2>
+        <p>Clean, creative, and attention-driven designs crafted to elevate your brand presence.</p>
+      </div>
+
+      <div class="service-table reveal">
+        <div class="service-row">
+          <span class="s-name"><span class="s-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><rect x="4" y="3" width="16" height="18" rx="2" stroke="currentColor" stroke-width="1.6"/><path d="M8 8h8M8 12h5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></span>Poster Design</span>
+          <span class="s-price">₹300</span>
+        </div>
+        <div class="service-row">
+          <span class="s-name"><span class="s-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><rect x="2" y="6" width="8" height="12" rx="1.5" stroke="currentColor" stroke-width="1.6"/><rect x="14" y="6" width="8" height="12" rx="1.5" stroke="currentColor" stroke-width="1.6"/></svg></span>Carousel (5 Slides)</span>
+          <span class="s-price">₹500</span>
+        </div>
+        <div class="service-row">
+          <span class="s-name"><span class="s-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><rect x="3" y="6" width="13" height="12" rx="2" stroke="currentColor" stroke-width="1.6"/><path d="M16 10l5-3v10l-5-3" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg></span>Video Editing Basic</span>
+          <span class="s-price">₹400</span>
+        </div>
+        <div class="service-row">
+          <span class="s-name"><span class="s-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><rect x="3" y="6" width="13" height="12" rx="2" stroke="currentColor" stroke-width="1.6"/><path d="M16 10l5-3v10l-5-3" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg></span>Advanced Editing</span>
+          <span class="s-price">₹500 – ₹2000</span>
+        </div>
+        <div class="service-row">
+          <span class="s-name"><span class="s-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8L12 3z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg></span>AI Editing</span>
+          <span class="s-price">₹800 – ₹3000</span>
+        </div>
+        <div class="service-row">
+          <span class="s-name"><span class="s-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="9" r="3" stroke="currentColor" stroke-width="1.6"/><path d="M6 20c1.2-3.4 4-5 6-5s4.8 1.6 6 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></span>Logo Design</span>
+          <span class="s-price">₹300 onwards</span>
+        </div>
+        <div class="service-row">
+          <span class="s-name"><span class="s-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.6"/><path d="M3 12h18M12 3a14 14 0 010 18a14 14 0 010-18z" stroke="currentColor" stroke-width="1.4"/></svg></span>Website Packages</span>
+          <span class="s-price">Custom</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section style="padding-top:0;">
+    <div class="wrap">
+      <div class="starter-card reveal" style="max-width:480px;">
+        <p class="eyebrow" style="margin-bottom:.2rem;">Starter Trial Package</p>
+        <h3>A small trial, done properly</h3>
+        <div class="starter-price">₹2000</div>
+        <ul class="check-list">
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12l4 4 10-10" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>5 Premium Jewellery/Business Posts</li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12l4 4 10-10" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Instagram Bio Optimization</li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12l4 4 10-10" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>2 Reels Ideas (Concepts)</li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12l4 4 10-10" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>1 Reel (Edited)</li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12l4 4 10-10" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Hashtag + Caption</li>
+        </ul>
+        <div class="starter-note">Normally I charge around ₹3000 — but since this is a starter, I can do a small trial for ₹2000. You can see the results first, and then we continue. 😊</div>
+      </div>
+    </div>
+  </section>
+
+  <section style="padding-top:0;">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <p class="eyebrow">Our Packages</p>
+        <h2>Monthly plans for every stage of growth.</h2>
+      </div>
+      <div class="pricing-grid">
+        <div class="plan-card plan-basic tilt reveal">
+          <div class="tilt-inner">
+            <div class="plan-name">Basic Plan</div>
+            <div class="plan-sub">Perfect for Startups</div>
+            <div class="plan-price">₹4999<span>/month</span></div>
+            <ul class="check-list">
+              <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M5 12l4 4 10-10" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>12 Premium Posts</li>
+              <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M5 12l4 4 10-10" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>4 Reels (Edited)</li>
+              <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M5 12l4 4 10-10" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Hashtag + Caption</li>
+              <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M5 12l4 4 10-10" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Basic Video Editing</li>
+              <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M5 12l4 4 10-10" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Instagram Bio Optimization</li>
+              <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M5 12l4 4 10-10" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Social Media Support</li>
+              <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M5 12l4 4 10-10" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Monthly Strategy Plan</li>
+            </ul>
+            <div class="plan-tagline">"Great start to build your brand presence!"</div>
+          </div>
+        </div>
+
+        <div class="plan-card plan-growth tilt reveal">
+          <div class="plan-ribbon">MOST POPULAR</div>
+          <div class="tilt-inner">
+            <div class="plan-name">Growth Plan</div>
+            <div class="plan-sub">For Growing Brands</div>
+            <div class="plan-price">₹9999<span>/month</span></div>
+            <ul class="check-list">
+              <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M5 12l4 4 10-10" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>20 Premium Posts</li>
+              <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M5 12l4 4 10-10" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>8 Reels (Edited + Concepts)</li>
+              <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M5 12l4 4 10-10" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Advanced Video Editing</li>
+              <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M5 12l4 4 10-10" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Hashtag + Caption</li>
+              <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M5 12l4 4 10-10" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Instagram Bio Optimization</li>
+              <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M5 12l4 4 10-10" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Social Media Management</li>
+              <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M5 12l4 4 10-10" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Content Calendar</li>
+              <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M5 12l4 4 10-10" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Monthly Strategy + Analytics</li>
+            </ul>
+            <div class="plan-tagline">"More engagement. More reach. More growth!"</div>
+          </div>
+        </div>
+
+        <div class="plan-card plan-premium tilt reveal">
+          <div class="tilt-inner">
+            <div class="plan-name">Premium Plan</div>
+            <div class="plan-sub">For Established Brands</div>
+            <div class="plan-price">₹19999<span>/month</span></div>
+            <ul class="check-list">
+              <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M5 12l4 4 10-10" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>30 Premium Posts</li>
+              <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M5 12l4 4 10-10" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>12 Reels (Edited + Concepts)</li>
+              <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M5 12l4 4 10-10" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Advanced Video + AI Editing</li>
+              <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M5 12l4 4 10-10" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Hashtag + Caption</li>
+              <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M5 12l4 4 10-10" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Instagram Bio Optimization</li>
+              <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M5 12l4 4 10-10" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Full Social Media Management</li>
+              <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M5 12l4 4 10-10" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Content Calendar</li>
+              <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M5 12l4 4 10-10" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Monthly Strategy + Analytics</li>
+              <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M5 12l4 4 10-10" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Priority Support</li>
+              <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M5 12l4 4 10-10" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Custom Website (Basic)</li>
+            </ul>
+            <div class="plan-tagline">"Complete branding &amp; growth solution!"</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section style="padding-top:0;">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <p class="eyebrow">Our Process</p>
+        <h2>How a project comes together.</h2>
+      </div>
+      <div class="process-row reveal" id="processRow">
+        <div class="process-line" id="processLine"><i></i></div>
+        <div class="process-step">
+          <div class="p-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="3.4" stroke="currentColor" stroke-width="1.6"/><path d="M5 20c1.6-4 4.4-6 7-6s5.4 2 7 6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></div>
+          <b>Understand Your Brand</b>
+        </div>
+        <div class="process-step">
+          <div class="p-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect x="6" y="4" width="12" height="16" rx="2" stroke="currentColor" stroke-width="1.6"/><path d="M9 3h6v3H9z" fill="currentColor"/><path d="M9 11h6M9 15h4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></div>
+          <b>Plan Strategy</b>
+        </div>
+        <div class="process-step">
+          <div class="p-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.6"/><path d="M12 3v2.4M12 18.6V21M21 12h-2.4M5.4 12H3M18.4 5.6l-1.7 1.7M7.3 16.7l-1.7 1.7M18.4 18.4l-1.7-1.7M7.3 7.3L5.6 5.6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></div>
+          <b>Create Content</b>
+        </div>
+        <div class="process-step">
+          <div class="p-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="6" stroke="currentColor" stroke-width="1.6"/><path d="M20 20l-4.3-4.3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></div>
+          <b>Review &amp; Refine</b>
+        </div>
+        <div class="process-step">
+          <div class="p-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M4 17l5-5 4 4 7-8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M15 8h5v5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <b>Deliver &amp; Grow</b>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section style="padding-top:0;">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <p class="eyebrow">Why Choose Us</p>
+        <h2>What working together looks like.</h2>
+      </div>
+      <div class="why-grid reveal">
+        <div class="why-row"><span class="w-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8L12 3z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg></span><span>Creative &amp; Unique Designs</span></div>
+        <div class="why-row"><span class="w-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.6"/><path d="M12 7v5l3.5 2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></span><span>Timely Delivery</span></div>
+        <div class="why-row"><span class="w-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="4" stroke="currentColor" stroke-width="1.6"/><path d="M8 12l3 3 5-6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>Affordable Packages</span></div>
+        <div class="why-row"><span class="w-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 3l7 3v6c0 4.5-3 7.7-7 9-4-1.3-7-4.5-7-9V6l7-3z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg></span><span>100% Client Satisfaction</span></div>
+        <div class="why-row"><span class="w-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="1.4"/><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.4"/><circle cx="12" cy="12" r="1" fill="currentColor"/></svg></span><span>Results Driven Approach</span></div>
+        <div class="why-row"><span class="w-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M4 6h16v9H8l-4 4V6z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg></span><span>Friendly Communication</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="wrap">
+      <div class="cta-banner reveal">
+        <p class="eyebrow" style="justify-content:center; display:flex;">Ready to take your brand to the next level?</p>
+        <h3>Let's design visuals your business deserves.</h3>
+        <div class="cta-row">
+          <div class="cta-box"><b>DM 'START'</b><span>to book your trial package</span></div>
+          <div class="cta-box"><b>Send 'PRICE'</b><span>for the complete service menu</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <a href="#top" class="logo" style="flex-direction:row; align-items:center; gap:.5rem;">
+    <span class="word" style="font-size:1.2rem;"><b>Creative</b>.Design25</span>
+  </a>
+  <div class="foot-social">
+    <a href="#">@creative.design25</a>
+    <a href="#">Facebook</a>
+  </div>
+  <p>Creative.Design25 — Where Creativity Meets Strategy! © 2026</p>
+</footer>
+
+<script>
+(function(){
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const isTouch = window.matchMedia('(pointer: coarse)').matches;
+
+  // Intro splash video
+  const splash = document.getElementById('introSplash');
+  const introVideo = document.getElementById('introVideo');
+  const introSkip = document.getElementById('introSkip');
+  if (splash){
+    if (reduceMotion){
+      splash.remove();
+    } else {
+      document.body.classList.add('intro-active');
+      const dismissIntro = () => {
+        splash.classList.add('hide');
+        document.body.classList.remove('intro-active');
+        setTimeout(() => splash.remove(), 750);
+      };
+      introVideo.addEventListener('ended', dismissIntro);
+      introSkip.addEventListener('click', dismissIntro);
+      introVideo.play().catch(() => dismissIntro());
+      // Safety timeout in case video fails to fire events
+      setTimeout(() => { if (document.body.contains(splash) && !splash.classList.contains('hide')) dismissIntro(); }, 14000);
+    }
+  }
+
+  // Header scroll state
+  const header = document.getElementById('siteHeader');
+  window.addEventListener('scroll', () => {
+    header.classList.toggle('scrolled', window.scrollY > 12);
+  }, { passive:true });
+
+  // Mobile nav
+  const hamburger = document.getElementById('hamburger');
+  const mobileNav = document.getElementById('mobileNav');
+  function closeMobileNav(){ hamburger.classList.remove('open'); mobileNav.classList.remove('open'); }
+  hamburger.addEventListener('click', () => { hamburger.classList.toggle('open'); mobileNav.classList.toggle('open'); });
+  mobileNav.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMobileNav));
+
+  // Hero entrance
+  if (!reduceMotion){
+    gsap.timeline({ defaults:{ ease:'power3.out' } })
+      .from('.hero-crumb', { opacity:0, y:16, duration:.7, delay:.1 })
+      .from('.hero h1', { opacity:0, y:30, duration:.9 }, '-=.5')
+      .from('.hero .script', { opacity:0, y:20, duration:.7 }, '-=.55')
+      .from('.hero .lede', { opacity:0, y:18, duration:.7 }, '-=.5')
+      .from('.hero-actions > *', { opacity:0, y:14, duration:.6, stagger:.1 }, '-=.45')
+      .from('.hero-meta > *', { opacity:0, y:14, duration:.6, stagger:.1 }, '-=.4');
+  } else {
+    gsap.set('.hero-crumb, .hero h1, .hero .script, .hero .lede, .hero-actions > *, .hero-meta > *', { opacity:1, y:0 });
+  }
+
+  // Hero background video: respect reduced motion, parallax on scroll
+  const heroVideo = document.getElementById('heroVideo');
+  if (heroVideo){
+    if (reduceMotion){
+      heroVideo.removeAttribute('autoplay');
+      heroVideo.pause();
+    } else {
+      heroVideo.play().catch(() => {});
+      const heroSection = document.getElementById('heroSection');
+      window.addEventListener('scroll', () => {
+        const y = window.scrollY;
+        if (y < window.innerHeight * 1.2){
+          heroVideo.style.transform = `translateY(${y * 0.18}px) scale(1.02)`;
+        }
+      }, { passive:true });
+    }
+  }
+
+  // Scroll reveal (with a touch of 3D rotation settling to flat)
+  const revealEls = document.querySelectorAll('.reveal');
+  if (reduceMotion){
+    revealEls.forEach(el => { el.style.opacity = 1; el.style.transform = 'none'; });
+  } else {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting){
+          gsap.to(entry.target, { opacity:1, y:0, rotateX:0, duration:1, ease:'power3.out' });
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold:.15 });
+    revealEls.forEach(el => io.observe(el));
+  }
+
+  // Process connector line fill
+  const processRow = document.getElementById('processRow');
+  const processLine = document.getElementById('processLine');
+  if (processRow){
+    const lineObs = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting){
+          processLine.classList.add('filled');
+          lineObs.unobserve(entry.target);
+        }
+      });
+    }, { threshold:.4 });
+    lineObs.observe(processRow);
+  }
+
+  // 3D pointer tilt for work + pricing cards
+  if (!isTouch && !reduceMotion){
+    document.querySelectorAll('.tilt').forEach(card => {
+      const inner = card.querySelector('.tilt-inner');
+      let raf = null;
+      card.addEventListener('mousemove', (e) => {
+        const rect = card.getBoundingClientRect();
+        const px = (e.clientX - rect.left) / rect.width - 0.5;
+        const py = (e.clientY - rect.top) / rect.height - 0.5;
+        if (raf) cancelAnimationFrame(raf);
+        raf = requestAnimationFrame(() => {
+          inner.style.transform = `rotateY(${px * 10}deg) rotateX(${-py * 10}deg) scale(1.02) translateZ(0)`;
+        });
+      });
+      card.addEventListener('mouseleave', () => {
+        if (raf) cancelAnimationFrame(raf);
+        inner.style.transform = 'rotateY(0deg) rotateX(0deg) scale(1)';
+      });
+    });
+  }
+
+  // Work video previews: hover-to-play on desktop, tap-to-play on touch
+  document.querySelectorAll('.work-video').forEach(video => {
+    const card = video.closest('.work-card');
+    if (isTouch){
+      video.setAttribute('controls', '');
+      card.addEventListener('click', (e) => {
+        if (e.target === video) return;
+        video.play();
+      });
+    } else {
+      card.addEventListener('mouseenter', () => { video.currentTime = 0; video.play().catch(()=>{}); });
+      card.addEventListener('mouseleave', () => { video.pause(); video.currentTime = 0; });
+    }
+  });
+
+  // Work gallery filter
+  const chips = document.querySelectorAll('.filter-chip');
+  const cards = document.querySelectorAll('.work-card');
+  chips.forEach(chip => {
+    chip.addEventListener('click', () => {
+      chips.forEach(c => c.classList.remove('active'));
+      chip.classList.add('active');
+      const f = chip.dataset.filter;
+      cards.forEach(card => {
+        const show = f === 'all' || card.dataset.cat === f;
+        card.classList.toggle('show', show);
+      });
+    });
+  });
+})();
+</script>
+
+</body>
+</html>
